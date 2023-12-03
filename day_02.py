@@ -27,14 +27,32 @@ def is_possible_game(game):
     return all([is_possible_draw(draw) for draw in game])
 
 
+def get_power(game):
+    min_red, min_green, min_blue = 0, 0, 0
+
+    for turn in game:
+        min_red = max(min_red, turn.get('red', 0))
+        min_green = max(min_green, turn.get('green', 0))
+        min_blue = max(min_blue, turn.get('blue', 0))
+
+    return min_red * min_green * min_blue
+
+
 def main():
     lines = read_file_as_lines('data/day_02.txt')
     games = tuple(map(parse_game, lines))
+
     is_valid_game = tuple(map(lambda x: is_possible_game(x['game']), games))
     valid_game_ids = [game['id'] for game, is_valid in zip(games, is_valid_game)
                       if is_valid]
 
-    print(sum(valid_game_ids))
+    print('part 1:', sum(valid_game_ids))
+
+    # we no longer need the ids
+    games = map(lambda x: x['game'], games)
+    powers = tuple(map(get_power, games))
+
+    print('part 2:', sum(powers))
 
 
 if __name__ == '__main__':
