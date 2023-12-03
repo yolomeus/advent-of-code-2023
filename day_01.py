@@ -79,7 +79,7 @@ def cat_first_and_last_num_or_str(text: str) -> int:
 
 
 def main():
-    data = read_file_as_lines('/Users/fabianberinger/adventofcode/day_01.txt')
+    data = read_file_as_lines('data/day_01.txt')
     print("part 1:", get_sum_numbers(data, cat_first_and_last_num))
     print("part 2:", get_sum_numbers(data, cat_first_and_last_num_or_str))
 
