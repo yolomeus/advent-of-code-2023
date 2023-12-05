@@ -5,7 +5,7 @@ def parse_list(number_string: str) -> list[int]:
     return list(map(int, number_string.split()))
 
 
-def parse_line(line: str) -> tuple[list[int], list[int]]:
+def parse_line(line: str):
     idx, cards = line.split(':')
     idx = int(idx.split()[-1])
     winning_nums, actual_nums = cards.split('|')
