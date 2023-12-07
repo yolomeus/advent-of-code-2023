@@ -1,4 +1,7 @@
 from functools import partial
+from multiprocessing import Pool
+
+from tqdm import tqdm
 
 from utils import read_file
 
@@ -44,6 +47,19 @@ def main():
 
     location_numbers = list(map(partial(get_location_number, maps=maps), seeds))
     print(min(location_numbers))
+
+    # brute force for the giggles (takes 15min on my machine...)
+    seeds = (range(x, x + y) for x, y in zip(seeds[0::2], seeds[1::2]))
+    seeds = tuple(y for x in tqdm(seeds) for y in x)
+
+    with Pool(12) as p:
+        location_numbers = (num for num in
+                            tqdm(p.imap_unordered(partial(get_location_number, maps=maps),
+                                                  seeds,
+                                                  chunksize=4096),
+                                 total=len(seeds))
+                            )
+        print(min(location_numbers))
 
 
 if __name__ == '__main__':
